@@ -97,15 +97,21 @@ final class MicrophoneInput: @unchecked Sendable {
 
   private var running = false
   private var reportedFailure = false
+  /// The session's audio kept for Breeze, converted on its own box: the
+  /// analyzer's format is Apple's to choose, and Breeze wants 16 kHz floats.
+  private let recording: BreezeRecording?
+  private let recordingBox = BreezeRecording.format.map(ConverterBox.init(outputFormat:))
 
   init(
     analyzerContinuation: AsyncStream<AnalyzerInput>.Continuation,
     failureHandler: @escaping @Sendable (InputError) -> Void,
-    levelHandler: (@Sendable (Float) -> Void)? = nil
+    levelHandler: (@Sendable (Float) -> Void)? = nil,
+    recording: BreezeRecording? = nil
   ) {
     self.analyzerContinuation = analyzerContinuation
     self.failureHandler = failureHandler
     self.levelHandler = levelHandler
+    self.recording = recording
   }
 
   func start(outputFormat: AVAudioFormat) throws {
@@ -263,6 +269,9 @@ final class MicrophoneInput: @unchecked Sendable {
     publishLevel(of: buffer)
     do {
       let convertedBuffer = try convert(buffer, using: converterBox)
+      if let recording, let recordingBox {
+        recording.append(try convert(buffer, using: recordingBox))
+      }
       let result = analyzerContinuation.yield(AnalyzerInput(buffer: convertedBuffer))
 
       if case .dropped = result {

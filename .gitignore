@@ -13,3 +13,4 @@ sparkle_eddsa_private_key
 # An empty file some tool drops in the repo root; it has no business here
 # and a wide "git add" keeps catching it.
 .oss
+build/

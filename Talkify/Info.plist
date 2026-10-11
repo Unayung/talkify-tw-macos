@@ -7,13 +7,15 @@
 	     Sparkle reads SUPublicEDKey straight from the bundle and Xcode's
 	     INFOPLIST_KEY_ passthrough silently drops keys it does not know. -->
 	<key>SUFeedURL</key>
-	<string>https://raw.githubusercontent.com/tornikegomareli/Talkify/main/appcast.xml</string>
+	<string>https://raw.githubusercontent.com/Unayung/talkify-tw-macos/main/appcast.xml</string>
 	<!-- Public half of the EdDSA signing key. The private half lives in the
 	     login Keychain and is never in the repository. -->
 	<key>SUPublicEDKey</key>
 	<string>CS7EqGMvprKkjontSt/uLAG3gkw4CSwaMKVLd+W1UV4=</string>
+	<!-- Off in this fork: it is built locally and has no signed releases, and
+	     upstream's feed would replace it with the original app. -->
 	<key>SUEnableAutomaticChecks</key>
-	<true/>
+	<false/>
 	<!-- Once a day. Talkify is a menu-bar app people leave running for weeks,
 	     so anything shorter is noise. -->
 	<key>SUScheduledCheckInterval</key>

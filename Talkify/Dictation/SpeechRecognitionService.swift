@@ -92,6 +92,8 @@ actor SpeechRecognitionService {
     let input: MicrophoneInput
     let continuation: AsyncStream<AnalyzerInput>.Continuation
     let resultTask: Task<String, any Error>
+    /// The audio kept for Breeze; nil when the session is Apple's alone.
+    let recording: BreezeRecording?
   }
 
   /// One warm session per language, keyed by locale: a second language is
@@ -142,6 +144,9 @@ actor SpeechRecognitionService {
   }
 
   func prewarm(locale: Locale) async throws {
+    if BreezeSpeechModel.hears(locale) {
+      Task { await BreezeSpeechModel.shared.load() }
+    }
     try await ensureWarm(locale: locale)
   }
 
@@ -228,19 +233,22 @@ actor SpeechRecognitionService {
       return accumulator.completedText
     }
 
+    let recording = BreezeSpeechModel.hears(prepared.locale) ? BreezeRecording() : nil
     let input = MicrophoneInput(
       analyzerContinuation: continuation,
       failureHandler: { error in
         failureHandler(error.localizedDescription)
       },
-      levelHandler: levelHandler
+      levelHandler: levelHandler,
+      recording: recording
     )
 
     activeSession = ActiveSession(
       prepared: prepared,
       input: input,
       continuation: continuation,
-      resultTask: resultTask
+      resultTask: resultTask,
+      recording: recording
     )
 
     do {
@@ -275,6 +283,12 @@ actor SpeechRecognitionService {
       try await session.prepared.analyzer.finalizeAndFinishThroughEndOfInput()
       let text = try await session.resultTask.value
       prewarmAfterSession(locale: session.prepared.locale)
+      // Apple's text was the live draft. Breeze hears the whole recording
+      // again and, when it has an answer, that is what lands.
+      if let recording = session.recording,
+         let heard = await BreezeSpeechModel.shared.dictate(recording.take()) {
+        return heard
+      }
       return text
     } catch {
       session.resultTask.cancel()

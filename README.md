@@ -1,3 +1,11 @@
+> **Talkify TW：給台灣工程師的 fork**
+>
+> 這是 [tornikegomareli/Talkify](https://github.com/tornikegomareli/Talkify) 的 fork。講話時的即時草稿仍然用 Apple 的語音辨識，放開按鍵後整段錄音會交給聯發科研究院的 [Breeze ASR 25](https://huggingface.co/MediaTek-Research/Breeze-ASR-25) 再聽一次，最後貼上的是 Breeze 的結果。Apple 的引擎在中文句子裡會把 deploy 聽成「thepoy」、Kubernetes 聽成「Cubernatis」，Breeze 不會。中英之間會自動留空白，也可以說「逗號」「句號」「換行」「刪掉」。
+>
+> 沒有簽章過的發行版，要在自己的 Mac 上編譯：裝好 Xcode 之後執行 `brew install rust cmake`，再 `./build-local.sh`。它會編譯、裝到 `/Applications/Talkify TW.app`，並下載 1 GB 的模型。之後在 Settings → Language 選「中文（台灣）」。語音模型和文字規則與 Linux 版共用，來自 [omarchy-talkify-tw](https://github.com/Unayung/omarchy-talkify-tw)。詞庫是 `~/.config/talkify/words.txt`。
+>
+> **Talkify TW, a fork for Taiwanese engineers.** Apple Speech still draws the live draft; on release the recording is heard again by [Breeze ASR 25](https://huggingface.co/MediaTek-Research/Breeze-ASR-25) (MediaTek Research, Apache 2.0), and its text is what lands. Build it on your own Mac with `./build-local.sh`; there are no signed releases. The rest of this page is upstream's.
+
 <p align="center">
   <img src="docs/assets/app-icon.png" width="96" alt="Talkify icon" />
   <h1 align="center">Talkify</h1>

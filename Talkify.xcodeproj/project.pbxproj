@@ -373,7 +373,21 @@
 					"@executable_path/../Frameworks",
 				);
 				MARKETING_VERSION = 0.8.3;
-				PRODUCT_BUNDLE_IDENTIFIER = com.tgomareli.Talkify;
+				INFOPLIST_KEY_CFBundleDisplayName = "Talkify TW";
+				LIBRARY_SEARCH_PATHS = "$(TALKIFY_CORE)/target/release";
+				OTHER_LDFLAGS = (
+					"-ltalkify",
+					"-lc++",
+					"-framework",
+					Accelerate,
+					"-framework",
+					Metal,
+					"-framework",
+					MetalKit,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.unayung.TalkifyTW;
+				SWIFT_INCLUDE_PATHS = "$(TALKIFY_CORE)/crates/talkify-ffi/include";
+				TALKIFY_CORE = "$(SRCROOT)/../omarchy-talkify-tw";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = NO;
@@ -414,7 +428,21 @@
 				);
 				LLVM_LTO = YES_THIN;
 				MARKETING_VERSION = 0.8.3;
-				PRODUCT_BUNDLE_IDENTIFIER = com.tgomareli.Talkify;
+				INFOPLIST_KEY_CFBundleDisplayName = "Talkify TW";
+				LIBRARY_SEARCH_PATHS = "$(TALKIFY_CORE)/target/release";
+				OTHER_LDFLAGS = (
+					"-ltalkify",
+					"-lc++",
+					"-framework",
+					Accelerate,
+					"-framework",
+					Metal,
+					"-framework",
+					MetalKit,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.unayung.TalkifyTW;
+				SWIFT_INCLUDE_PATHS = "$(TALKIFY_CORE)/crates/talkify-ffi/include";
+				TALKIFY_CORE = "$(SRCROOT)/../omarchy-talkify-tw";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				STRIP_INSTALLED_PRODUCT = YES;
