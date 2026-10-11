@@ -310,7 +310,9 @@ final class AppSettings {
     promptShapingPromptID = defaults.string(forKey: Keys.promptShapingPrompt)
       ?? ShapingPrompt.defaults[0].id
     shapingPrompts = Self.storedShapingPrompts(in: defaults) ?? ShapingPrompt.defaults
-    voiceVisual = Self.stored(in: defaults, key: Keys.voiceVisual) ?? .waveform
+    // Upstream opens on Waveform, which hides the live draft; this fork is
+    // for seeing the words as they are said.
+    voiceVisual = Self.stored(in: defaults, key: Keys.voiceVisual) ?? .compact
     waveformStyle = Self.stored(in: defaults, key: Keys.waveformStyle) ?? .chartLine
     revealStyle = Self.stored(in: defaults, key: Keys.revealStyle) ?? .slide
     longDraftStyle = Self.stored(in: defaults, key: Keys.longDraftStyle) ?? .growDown
