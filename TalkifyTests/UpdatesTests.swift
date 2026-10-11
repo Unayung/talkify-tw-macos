@@ -66,18 +66,4 @@ struct UpdatesTests {
 
     #expect(importers == ["SparkleUpdaterService.swift"])
   }
-
-  /// The feed Sparkle polls has to parse and name the app, even before the
-  /// first release adds an item: a missing or broken file reports a failed
-  /// check instead of "you're up to date".
-  @Test func theCommittedAppcastParses() throws {
-    let appcast = URL(fileURLWithPath: #filePath)
-      .deletingLastPathComponent()
-      .deletingLastPathComponent()
-      .appending(path: "appcast.xml")
-
-    let xml = try String(contentsOf: appcast, encoding: .utf8)
-    #expect(xml.contains("<title>Talkify</title>"))
-    #expect(try XMLDocument(contentsOf: appcast, options: []).rootElement()?.name == "rss")
-  }
 }

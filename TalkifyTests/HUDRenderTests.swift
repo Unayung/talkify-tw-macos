@@ -232,6 +232,39 @@ struct HUDRenderTests {
     _ = try render(card, named: "12-drop-preview-card")
   }
 
+  /// A Mandarin draft in the two visuals that show one: look-at fixtures for
+  /// where the words sit against the housing.
+  @Test(arguments: [
+    ("20-compact-zh-short", HUDVoiceVisualStyle.compact, "請幫我 review 這個 PR"),
+    (
+      "21-compact-zh-long", .compact,
+      "我剛剛把 PR 推上去了，你有空的時候幫我 review 一下，如果 CI 沒過我明天早上再修，然後我們下午三點開會討論 deploy 的時程"
+    ),
+    ("22-glow-draft-zh", .glowDraft, "你有空的時候幫我 review 一下"),
+  ])
+  func aMandarinDraftClearsTheHousing(
+    name: String, visual: HUDVoiceVisualStyle, draft: String
+  ) throws {
+    let store = AppSettings.previewStore()
+    store.voiceVisual = visual
+
+    let content = DictationHUDContent()
+    content.isRevealed = true
+    content.showsVoiceVisual = true
+    content.isAudioAlive = true
+    content.text = draft
+    content.volatileText = "你覺得"
+
+    _ = try render(
+      DictationHUDShellView(
+        screen: notchedScreen,
+        settings: store.sessionSettings,
+        content: content
+      ),
+      named: name
+    )
+  }
+
   /// The PNG canvas is the fixed host, so this is a look-at fixture
   /// rather than a size assertion.
   @Test func glowDraftRendersTheRecentWordLine() throws {

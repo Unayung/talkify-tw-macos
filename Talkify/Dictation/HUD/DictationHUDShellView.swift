@@ -197,10 +197,17 @@ struct DictationHUDShellView: View {
             scale: metrics.scale
           )
           .padding(.horizontal, tagInset * metrics.scale)
+          // Upstream centers the line in the whole island, housing strip
+          // included, which puts the top of a line of Chinese behind the
+          // camera. Here it centers in the stage below.
+          .padding(.top, HUDNotchGeometry.closedSize(for: screen).height)
         }
       }
       .overlay(alignment: .leading) {
-        if showsRecentDraft { languageTag }
+        if showsRecentDraft {
+          languageTag
+            .padding(.top, HUDNotchGeometry.closedSize(for: screen).height)
+        }
       }
   }
 

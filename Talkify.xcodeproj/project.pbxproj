@@ -466,6 +466,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 26.0;
 				MARKETING_VERSION = 0.8.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tgomareli.TalkifyTests;
+				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/../omarchy-talkify-tw/crates/talkify-ffi/include";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = NO;
@@ -489,6 +490,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 26.0;
 				MARKETING_VERSION = 0.8.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tgomareli.TalkifyTests;
+				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/../omarchy-talkify-tw/crates/talkify-ffi/include";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = NO;

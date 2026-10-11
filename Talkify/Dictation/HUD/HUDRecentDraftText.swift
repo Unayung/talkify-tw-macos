@@ -153,11 +153,13 @@ private struct HUDRecentDraftLineLayout: Layout {
   }
 }
 
-/// Edge Glow + Draft's live draft: one 24-point line of recent words,
+/// Edge Glow + Draft's live draft: one 20-point line of recent words,
 /// centered in the island when it fits. Each word keeps a stable id, so
 /// only a new or departing token slides; a finalization rewrites in place.
 struct HUDRecentDraftText: View {
-  static let pointSize: CGFloat = 24
+  // Upstream sets 24. Chinese fills its box where Latin leaves the top
+  // third empty, and at 24 a line of it crowds the stage.
+  static let pointSize: CGFloat = 20
 
   let committed: String
   let volatile: String
