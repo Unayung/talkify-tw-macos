@@ -16,7 +16,7 @@ struct AppSettingsTests {
     #expect(settings.soundSet == .synth8)
     #expect(settings.dictationSoundsEnabled)
     #expect(settings.dictationSoundVolume == 0.5)
-    #expect(settings.voiceVisual == .waveform)
+    #expect(settings.voiceVisual == .compact)
     #expect(settings.waveformStyle == .chartLine)
     #expect(settings.revealStyle == .slide)
     #expect(settings.longDraftStyle == .growDown)
@@ -316,7 +316,7 @@ struct AppSettingsTests {
 
     let settings = AppSettings(defaults: defaults)
     #expect(settings.soundSet == .synth8)
-    #expect(settings.voiceVisual == .waveform)
+    #expect(settings.voiceVisual == .compact)
   }
 
   @Test func sessionSnapshotDoesNotChangeWithStoredSettings() {
@@ -333,7 +333,7 @@ struct AppSettingsTests {
     settings.hudScale = 0.6
 
     #expect(snapshot.sounds.set == .synth8)
-    #expect(snapshot.voiceVisual == .waveform)
+    #expect(snapshot.voiceVisual == .compact)
     #expect(snapshot.waveformStyle == .chartLine)
     #expect(snapshot.revealStyle == .slide)
     #expect(snapshot.longDraftStyle == .growDown)
