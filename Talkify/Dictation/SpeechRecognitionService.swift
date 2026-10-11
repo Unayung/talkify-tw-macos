@@ -233,7 +233,7 @@ actor SpeechRecognitionService {
       return accumulator.completedText
     }
 
-    let recording = BreezeSpeechModel.hears(prepared.locale) ? BreezeRecording() : nil
+    let recording = BreezeSpeechModel.record(in: prepared.locale)
     let input = MicrophoneInput(
       analyzerContinuation: continuation,
       failureHandler: { error in
@@ -279,14 +279,18 @@ actor SpeechRecognitionService {
     session.input.stop()
     session.continuation.finish()
 
+    // Apple's text was the live draft. Breeze hears the whole recording and,
+    // when it has an answer, that is what lands. It starts now rather than
+    // after Apple has finished its own.
+    let breeze = session.recording.map { recording in
+      Task { await BreezeSpeechModel.shared.dictate(recording) }
+    }
+
     do {
       try await session.prepared.analyzer.finalizeAndFinishThroughEndOfInput()
       let text = try await session.resultTask.value
       prewarmAfterSession(locale: session.prepared.locale)
-      // Apple's text was the live draft. Breeze hears the whole recording
-      // again and, when it has an answer, that is what lands.
-      if let recording = session.recording,
-         let heard = await BreezeSpeechModel.shared.dictate(recording.take()) {
+      if let heard = await breeze?.value {
         return heard
       }
       return text
